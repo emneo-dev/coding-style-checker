@@ -41,11 +41,11 @@ then
 
     if [ $HAS_SOCKET_ACCESS -ne 0 ]; then
         echo "WARNING: Socket access is denied"
-        echo "To fix this we will add the current user to docker group with : sudo usermod -a -G docker $USER"
+        echo "To fix this we will add the current user to docker group and launch the docker daemon with : sudo sh -c \"usermod -a -G docker $USER && systemctl enable --now docker\""
         read -p "Do you want to proceed? (yes/no) " yn
         case $yn in 
             yes | Y | y | Yes | YES) echo "ok, we will proceed";
-                sudo usermod -a -G docker $USER;
+                sudo sh -c "usermod -a -G docker $USER && systemctl enable --now docker";
                 echo "You must reboot your computer for the changes to take effect";;
             no | N | n | No | NO) echo "ok, Skipping";;
             * ) echo "invalid response, Skipping";;
